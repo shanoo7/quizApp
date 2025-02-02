@@ -5,13 +5,13 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss()
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://api.jsonserve.com/Uw5CrX',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://api.jsonserve.com/Uw5CrX',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //     },
+  //   },
+  // },
 });

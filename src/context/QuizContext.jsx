@@ -16,7 +16,7 @@ export const QuizProvider = ({ children }) => {
     const fetchData = async () => {
       setIsLoading(true); // Start loading
       try {
-        const { data } = await axios.get('/api');
+        const { data } = await axios.get('https://api.jsonserve.com/Uw5CrX');
         // console.log(data); // Check the structure of the response
         if (!data || !Array.isArray(data.questions)) {
           throw new Error('Invalid data format');
