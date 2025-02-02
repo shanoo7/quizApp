@@ -21,10 +21,10 @@ https://github.com/shanoo7/quizApp.git
 ## Screenshots
 
 ### Start Quiz Page
-![Start Quiz](/screenShots/start-quiz.png)
+![Start Quiz](./public/screenShots/start-quiz.png)
 
 ### Quiz Question Page
-![Quiz Question](/screenShots/quiz-question.png)
+![Quiz Question](./public/screenShots/quiz-question.png)
 
 ### Results Page
-![Results](/screenShots/results.png)
+![Results](./public/screenShots/results.png)
