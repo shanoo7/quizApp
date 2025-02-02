@@ -14,19 +14,32 @@ export const QuizProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       try {
-        const { data } = await axios.get('https://api.jsonserve.com/Uw5CrX');
-        // console.log(data); // Check the structure of the response
-        if (!data || !Array.isArray(data.questions)) {
-          throw new Error('Invalid data format');
+        // Use environment-aware URL
+        const apiUrl = import.meta.env.PROD 
+          ? 'https://api.jsonserve.com/Uw5CrX' 
+          : '/api';
+
+        const { data } = await axios.get(apiUrl);
+        
+        // Handle different response formats
+        const questions = Array.isArray(data) ? data : data?.questions || [];
+        
+        if (!questions.length) {
+          throw new Error('No questions found');
         }
-        setQuizData(data.questions);
+        
+        setQuizData(questions);
       } catch (err) {
-        setError('Failed to load quiz data');
-        // console.error(err); // Log the error for debugging
+        setError(err.message || 'Failed to load quiz data');
+        console.error('API Error:', {
+          message: err.message,
+          response: err.response?.data,
+          config: err.config
+        });
       } finally {
-        setIsLoading(false); // Stop loading regardless of success or failure
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -48,5 +61,4 @@ export const QuizProvider = ({ children }) => {
     </QuizContext.Provider>
   );
 };
-
 
