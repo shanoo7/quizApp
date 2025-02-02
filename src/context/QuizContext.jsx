@@ -16,18 +16,17 @@ export const QuizProvider = ({ children }) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Use environment-aware URL
         const apiUrl = import.meta.env.PROD 
-          ? 'https://api.jsonserve.com/Uw5CrX' 
-          : '/api';
+          ? '/api/proxy'  // Vercel Serverless Function
+          : '/api';       // Local Vite Proxy
 
         const { data } = await axios.get(apiUrl);
         
-        // Handle different response formats
-        const questions = Array.isArray(data) ? data : data?.questions || [];
+        // Handle both proxy and direct responses
+        const questions = data?.questions || data;
         
-        if (!questions.length) {
-          throw new Error('No questions found');
+        if (!Array.isArray(questions)) {
+          throw new Error('Invalid data format');
         }
         
         setQuizData(questions);
@@ -35,8 +34,8 @@ export const QuizProvider = ({ children }) => {
         setError(err.message || 'Failed to load quiz data');
         console.error('API Error:', {
           message: err.message,
-          response: err.response?.data,
-          config: err.config
+          url: err.config?.url,
+          response: err.response?.data
         });
       } finally {
         setIsLoading(false);
